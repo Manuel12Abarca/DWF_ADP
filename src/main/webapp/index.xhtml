@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:f="http://java.sun.com/jsf/core"
+      lang="es">
+
+<h:head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        .header {
+            background-color: #f8f8f8;
+            padding: 20px;
+            text-align: center;
+        }
+        .container {
+            padding: 20px;
+        }
+        .productos {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .article {
+            border: 1px solid #ddd;
+            padding: 20px;
+            width: calc(33.333% - 40px);
+            box-sizing: border-box;
+        }
+        .article__img img {
+            max-width: 100%;
+        }
+        .article_precio {
+            font-size: 1.5em;
+            color: #333;
+            margin: 10px 0;
+        }
+        .article__nombre {
+            margin: 10px 0;
+        }
+        .article__title {
+            font-size: 1.2em;
+            margin: 0;
+        }
+        .article__descripcion {
+            margin: 10px 0;
+        }
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 16px;
+            color: white;
+            background-color: #007bff;
+            border: none;
+            border-radius: 4px;
+            text-decoration: none;
+            text-align: center;
+            transition: background-color 0.3s ease;
+            cursor: pointer;
+        }
+        .btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</h:head>
+<body>
+<header class="header">
+    <h:link value="Carrito" outcome="carrito" styleClass="btn" />
+</header>
+<h:form id="productosForm">
+    <div class="container">
+        <section class="productos">
+            <ui:repeat value="#{productoBean.productos}" var="producto">
+                <article class="article">
+                    <div class="article__img">
+                        <figure class="img">
+                            <img src="resources/img/#{producto.imagen}" alt="#{producto.nombre}" width="40%" height="40%" />
+                        </figure>
+                    </div>
+                    <div class="article_precio">${producto.precio}</div>
+                    <div class="article__nombre">
+                        <h2 class="article__title">#{producto.nombre}</h2>
+                    </div>
+                    <div class="article__descripcion">
+                        <p>#{producto.descripcion}</p>
+                    </div>
+                    <h:commandButton value="Comprar" action="#{carritoBean.agregarAlCarrito(producto)}" styleClass="btn">
+                        <f:ajax execute="@this" render="@none" />
+                    </h:commandButton>
+                </article>
+            </ui:repeat>
+        </section>
+    </div>
+</h:form>
+
+<script src="index.js"></script>
+<script src="https://kit.fontawesome.com/2fbe53bf47.js" crossorigin="anonymous"></script>
+
+</body>
+</html>
