@@ -30,7 +30,8 @@
                 </div>
             </div>
             <h:commandButton value="Pagar ${carritoBean.totalCarrito} USD" action="#{pagoBean.realizarPago()}" class="btn btn-primary" />
-            <h:commandButton value="Cancelar" action="carrito" class="btn btn-secondary" />
+            <!-- Cambia la acción de cancelar para redirigir al índice -->
+            <h:commandButton value="Cancelar" action="index?faces-redirect=true" class="btn btn-secondary" />
         </h:form>
     </div>
 </h:body>

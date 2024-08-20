@@ -6,12 +6,15 @@
 <h:head>
     <title>Confirmación de Compra</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+    <meta http-equiv="refresh" content="3;url=index.xhtml" />
 </h:head>
 <h:body>
     <div class="container text-center">
         <h3>¡Pago Registrado con Éxito!</h3>
         <p>Gracias por tu compra.</p>
-        <h:commandButton value="Volver al Inicio" action="index" class="btn btn-primary" />
+        <h:form>
+            <h:commandButton value="Volver al Inicio" action="index?faces-redirect=true" class="btn btn-primary" />
+        </h:form>
     </div>
 </h:body>
 </html>

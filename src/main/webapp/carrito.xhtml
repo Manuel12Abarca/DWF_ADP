@@ -8,28 +8,42 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
 </h:head>
 <h:body>
-    <h:form>
+    <h:form id="carritoForm">
         <div class="container">
             <h2>Carrito de Compras</h2>
             <ui:repeat value="#{carritoBean.productosEnCarrito}" var="productoEnCarrito">
                 <div class="row mb-3">
-                    <div class="col-md-8">
+                    <div class="col-md-2">
+                        <!-- Muestra la imagen del producto -->
+                        <img src="#{facesContext.externalContext.requestContextPath}/resources/img/#{productoEnCarrito.producto.imagen}"
+                             alt="Imagen de #{productoEnCarrito.producto.nombre}" class="img-fluid" />
+                    </div>
+                    <div class="col-md-6">
                         <h4>#{productoEnCarrito.producto.nombre}</h4>
                         <p>#{productoEnCarrito.producto.descripcion}</p>
                     </div>
                     <div class="col-md-2">
-                        <p>Cantidad: #{productoEnCarrito.cantidad}</p>
+                        <!-- Botones para aumentar/disminuir la cantidad -->
+                        <div class="input-group">
+                            <h:commandButton value="-" action="#{carritoBean.disminuirCantidad(productoEnCarrito)}" styleClass="btn btn-outline-secondary">
+                                <f:ajax execute="@this" render="@form" />
+                            </h:commandButton>
+                            <h:outputText value="#{productoEnCarrito.cantidad}" styleClass="form-control text-center" />
+                            <h:commandButton value="+" action="#{carritoBean.aumentarCantidad(productoEnCarrito)}" styleClass="btn btn-outline-secondary">
+                                <f:ajax execute="@this" render="@form" />
+                            </h:commandButton>
+                        </div>
                     </div>
                     <div class="col-md-2">
                         <p>Total: ${productoEnCarrito.total}</p>
                         <h:commandButton value="Eliminar" action="#{carritoBean.eliminarDelCarrito(productoEnCarrito)}" styleClass="btn btn-danger">
-                            <f:ajax execute="@this" render="@this" />
+                            <f:ajax execute="@this" render="@form" />
                         </h:commandButton>
                     </div>
                 </div>
             </ui:repeat>
-            <h3>Total: ${carritoBean.totalCarrito}</h3>
-            <h:commandButton value="Proceder al Pago" action="#{carritoBean.procesarPago()}" styleClass="btn btn-primary" />
+            <h3>Total Carrito: ${carritoBean.totalCarrito}</h3>
+            <h:commandButton value="Proceder al Pago" action="registroCompra?faces-redirect=true" styleClass="btn btn-primary" />
             <h:commandButton value="Seguir Comprando" action="#{carritoBean.seguirComprando()}" styleClass="btn btn-secondary" />
         </div>
     </h:form>

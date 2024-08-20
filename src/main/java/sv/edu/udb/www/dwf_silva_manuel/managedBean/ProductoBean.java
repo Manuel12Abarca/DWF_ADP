@@ -16,8 +16,8 @@ public class ProductoBean implements Serializable {
         productos = new ArrayList<>();
         productos.add(new Producto("Taladro", "Taladro eléctrico de 500W", 50.0, "taladro.jpg"));
         productos.add(new Producto("Martillo", "Martillo de acero forjado", 25.0, "martillo.jpg"));
-        productos.add(new Producto("Destornillador", "Juego de destornilladores", 15.0, "destornillador.jpg"));
-        productos.add(new Producto("Sierra", "Sierra manual de 30 cm", 30.0, "sierra.jpg"));
+        productos.add(new Producto("Destornillador", "Juego de destornilladores", 15.0, "desarmadores.jpg"));
+        productos.add(new Producto("Cierra", "Cierra manual de 30 cm", 30.0, "cierra.jpg"));
         productos.add(new Producto("Alicate", "Alicate de corte y agarre", 20.0, "alicate.jpg"));
     }
 
