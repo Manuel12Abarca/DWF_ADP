@@ -6,15 +6,74 @@
 <h:head>
     <title>Confirmación de Compra</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
-    <meta http-equiv="refresh" content="3;url=index.xhtml" />
+    <style>
+        body {
+            background-color: #f7f9fc;
+            font-family: 'Roboto', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            max-width: 600px;
+            background: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        .success-icon {
+            font-size: 60px;
+            color: #28a745;
+            margin-bottom: 20px;
+        }
+        .loading-container {
+            margin-top: 30px;
+            position: relative;
+            height: 10px; /* Ajusta la altura de la barra de carga */
+        }
+        .loading-bar {
+            width: 100%;
+            height: 10px;
+            background: linear-gradient(to right, #28a745 20%, #fff 20%, #fff 40%, #28a745 40%, #28a745 60%, #fff 60%, #fff 80%, #28a745 80%);
+            background-size: 200% 100%;
+            position: relative;
+            border-radius: 5px;
+            animation: loading 2s linear infinite;
+        }
+        @keyframes loading {
+            0% { background-position: 0% 0%; }
+            100% { background-position: 100% 0%; }
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .animated {
+            animation: fadeIn 1s ease-in-out;
+        }
+    </style>
 </h:head>
 <h:body>
-    <div class="container text-center">
+    <div class="container animated">
         <h3>¡Pago Registrado con Éxito!</h3>
         <p>Gracias por tu compra.</p>
-        <h:form>
-            <h:commandButton value="Volver al Inicio" action="index?faces-redirect=true" class="btn btn-primary" />
-        </h:form>
+        <div class="loading-container" id="loadingContainer">
+            <div class="loading-bar"></div>
+        </div>
     </div>
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <script>
+        // Mostrar la barra de carga y redirigir después de 5 segundos
+        document.addEventListener('DOMContentLoaded', function () {
+            let loadingContainer = document.getElementById('loadingContainer');
+            loadingContainer.style.display = 'block'; // Muestra la barra de carga
+            setTimeout(function() {
+                window.location.href = 'index.xhtml'; // Redirige al inicio
+            }, 5000); // 5000 milisegundos = 5 segundos
+        });
+    </script>
 </h:body>
 </html>

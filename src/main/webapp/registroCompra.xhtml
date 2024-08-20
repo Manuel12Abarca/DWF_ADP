@@ -5,34 +5,117 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 <h:head>
     <title>Detalles del Pago</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+    <!-- Enlaza con Bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+    <style>
+        body {
+            background-color: #f7f9fc;
+            font-family: 'Roboto', sans-serif;
+        }
+        .container {
+            max-width: 900px;
+            margin-top: 50px;
+            padding: 30px;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        .card-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+        .credit-card {
+            width: 100%;
+            max-width: 400px;
+            height: 220px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #ff7e5f 0%, #feb47b 100%);
+            color: #fff;
+            padding: 20px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+            font-family: 'Arial', sans-serif;
+            transform: rotateX(0) rotateY(0);
+            transition: transform 0.5s, box-shadow 0.5s;
+        }
+        .credit-card:hover {
+            transform: rotateX(10deg) rotateY(10deg);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
+        }
+        .credit-card .card-number {
+            font-size: 1.5em;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+            overflow: hidden;
+        }
+        .credit-card .card-name, .credit-card .card-expiry {
+            font-size: 0.9em;
+            letter-spacing: 1px;
+        }
+        .credit-card .card-number span, .credit-card .card-name span, .credit-card .card-expiry span {
+            color: #fff;
+        }
+        .credit-card .card-expiry {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+        }
+    </style>
 </h:head>
 <h:body>
     <div class="container">
-        <h3>Detalles del Pago</h3>
+        <div class="card-container">
+            <div class="credit-card">
+                <div class="card-number">
+                    <h:outputText id="cardNumber" value="#{pagoBean.numeroTarjeta}" styleClass="card-number" />
+                </div>
+                <div class="card-name">
+                    Nombre: <h:outputText id="cardName" value="#{pagoBean.nombreTarjeta}" styleClass="card-name" />
+                </div>
+                <div class="card-expiry">
+                    Exp: <h:outputText id="cardExpiry" value="#{pagoBean.fechaExpiracion}" styleClass="card-expiry" />
+                </div>
+            </div>
+        </div>
+        <h3 class="text-center">Detalles del Pago</h3>
         <h:form id="paymentForm">
             <div class="form-group">
                 <label for="nombreTarjeta">Nombre en la Tarjeta</label>
-                <h:inputText id="nombreTarjeta" value="#{pagoBean.nombreTarjeta}" class="form-control" required="true" />
+                <h:inputText id="nombreTarjeta" value="#{pagoBean.nombreTarjeta}" class="form-control" required="true">
+                    <f:ajax render="cardName cardNumber cardExpiry"/>
+                </h:inputText>
             </div>
             <div class="form-group">
                 <label for="numeroTarjeta">Número de Tarjeta</label>
-                <h:inputText id="numeroTarjeta" value="#{pagoBean.numeroTarjeta}" class="form-control" required="true" />
+                <h:inputText id="numeroTarjeta" value="#{pagoBean.numeroTarjeta}" class="form-control" required="true" oninput="formatCardNumber()">
+                    <f:ajax render="cardNumber cardName cardExpiry"/>
+                </h:inputText>
             </div>
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label for="fechaExpiracion">Fecha de Expiración</label>
-                    <h:inputText id="fechaExpiracion" value="#{pagoBean.fechaExpiracion}" class="form-control" required="true" />
+                    <h:inputText id="fechaExpiracion" value="#{pagoBean.fechaExpiracion}" class="form-control" required="true">
+                        <f:ajax render="cardNumber cardName cardExpiry"/>
+                    </h:inputText>
                 </div>
                 <div class="form-group col-md-6">
                     <label for="codigoSeguridad">Código de Seguridad</label>
-                    <h:inputText id="codigoSeguridad" value="#{pagoBean.codigoSeguridad}" class="form-control" required="true" />
+                    <h:inputText id="codigoSeguridad" value="#{pagoBean.codigoSeguridad}" class="form-control" required="true"/>
                 </div>
             </div>
             <h:commandButton value="Pagar ${carritoBean.totalCarrito} USD" action="#{pagoBean.realizarPago()}" class="btn btn-primary" />
-            <!-- Cambia la acción de cancelar para redirigir al índice -->
             <h:commandButton value="Cancelar" action="index?faces-redirect=true" class="btn btn-secondary" />
         </h:form>
     </div>
+    <script>
+        function formatCardNumber() {
+            const input = document.getElementById('numeroTarjeta');
+            let value = input.value.replace(/\D/g, ''); // Remove non-digit characters
+            if (value.length > 16) value = value.slice(0, 16); // Limit to 16 digits
+            input.value = value.replace(/(.{4})/g, '$1 ').trim(); // Format with spaces
+        }
+    </script>
 </h:body>
 </html>
