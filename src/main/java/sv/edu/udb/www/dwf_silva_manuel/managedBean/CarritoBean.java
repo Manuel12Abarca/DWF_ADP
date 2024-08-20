@@ -5,6 +5,8 @@ import jakarta.faces.bean.SessionScoped;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import sv.edu.udb.www.dwf_silva_manuel.managedBean.Producto;
+import sv.edu.udb.www.dwf_silva_manuel.managedBean.ProductoEnCarrito;
 
 @ManagedBean(name = "carritoBean")
 @SessionScoped
@@ -16,7 +18,6 @@ public class CarritoBean implements Serializable {
         productosEnCarrito = new ArrayList<>();
     }
 
-    // Getters y Setters
     public List<ProductoEnCarrito> getProductosEnCarrito() {
         return productosEnCarrito;
     }
@@ -26,7 +27,6 @@ public class CarritoBean implements Serializable {
         return totalCarrito;
     }
 
-    // Agregar producto al carrito
     public void agregarAlCarrito(Producto producto) {
         for (ProductoEnCarrito productoEnCarrito : productosEnCarrito) {
             if (productoEnCarrito.getProducto().equals(producto)) {
@@ -39,19 +39,16 @@ public class CarritoBean implements Serializable {
         calcularTotalCarrito();
     }
 
-    // Eliminar producto del carrito
     public void eliminarDelCarrito(ProductoEnCarrito productoEnCarrito) {
         productosEnCarrito.remove(productoEnCarrito);
         calcularTotalCarrito();
     }
 
-    // Aumentar cantidad de producto
     public void aumentarCantidad(ProductoEnCarrito productoEnCarrito) {
         productoEnCarrito.setCantidad(productoEnCarrito.getCantidad() + 1);
         calcularTotalCarrito();
     }
 
-    // Disminuir cantidad de producto
     public void disminuirCantidad(ProductoEnCarrito productoEnCarrito) {
         if (productoEnCarrito.getCantidad() > 1) {
             productoEnCarrito.setCantidad(productoEnCarrito.getCantidad() - 1);
@@ -59,7 +56,6 @@ public class CarritoBean implements Serializable {
         }
     }
 
-    // Calcular el total del carrito
     private void calcularTotalCarrito() {
         totalCarrito = 0;
         for (ProductoEnCarrito productoEnCarrito : productosEnCarrito) {
@@ -67,17 +63,16 @@ public class CarritoBean implements Serializable {
         }
     }
 
-    // Procesar el pago y vaciar el carrito
-    public String procesarPago() {
-        // Vaciar el carrito
+    public void vaciarCarrito() {
         productosEnCarrito.clear();
         totalCarrito = 0;
+    }
 
-        // Retornar el nombre de la página de confirmación de compra
+    public String procesarPago() {
+        vaciarCarrito();
         return "confirmacionCompra?faces-redirect=true";
     }
 
-    // Redirigir a la página de inicio para seguir comprando
     public String seguirComprando() {
         return "index?faces-redirect=true";
     }

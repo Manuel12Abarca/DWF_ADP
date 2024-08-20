@@ -3,7 +3,7 @@ package sv.edu.udb.www.dwf_silva_manuel.managedBean;
 import jakarta.faces.bean.ManagedBean;
 import jakarta.faces.bean.ViewScoped;
 import java.io.Serializable;
-import jakarta.inject.Inject;
+import jakarta.faces.context.FacesContext;
 
 @ManagedBean(name = "pagoBean")
 @ViewScoped
@@ -13,10 +13,6 @@ public class PagoBean implements Serializable {
     private String fechaExpiracion;
     private String codigoSeguridad;
 
-    @Inject
-    private CarritoBean carritoBean; // Inyecta el CarritoBean
-
-    // Getters y Setters
     public String getNombreTarjeta() {
         return nombreTarjeta;
     }
@@ -49,20 +45,11 @@ public class PagoBean implements Serializable {
         this.codigoSeguridad = codigoSeguridad;
     }
 
-    // Método para realizar el pago
     public String realizarPago() {
-        // Validar que los campos no sean nulos
-        if (nombreTarjeta == null || numeroTarjeta == null || fechaExpiracion == null || codigoSeguridad == null) {
-            // Redirigir a una página de error si algún campo es nulo
-            return "error?faces-redirect=true";
+        CarritoBean carritoBean = (CarritoBean) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("carritoBean");
+        if (carritoBean != null) {
+            carritoBean.procesarPago();
         }
-
-        // Procesar el pago (lógica aquí)
-
-        // Vaciar el carrito
-        carritoBean.procesarPago();
-
-        // Redirigir a la página de confirmación de compra
         return "confirmacionCompra?faces-redirect=true";
     }
 }
