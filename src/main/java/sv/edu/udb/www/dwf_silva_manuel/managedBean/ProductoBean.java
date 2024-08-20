@@ -26,7 +26,7 @@ public class ProductoBean implements Serializable {
         productos.add(new Producto("Esmeril", "Esmeril angular de 4\"", 60.0, "esmeril.jpg"));
         productos.add(new Producto("Aspiradora", "Aspiradora de taller 1200W", 70.0, "aspiradora.jpg"));
         productos.add(new Producto("Llave Inglesa", "Llave inglesa ajustable de 12\"", 18.0, "llaveinglesa.jpg"));
-        productos.add(new Producto("Pincel", "Pincel de cerdas sintéticas de 2\"", 5.0, "pincel.jpg"));
+        productos.add(new Producto("Pincel", "Pincel de cerdas sintéticas de 2\"", 5.0, "broca.jpg"));
         productos.add(new Producto("Martillo de Goma", "Martillo de goma de 24 oz", 15.0, "martillodegoma.jpg"));
         productos.add(new Producto("Cinta Métrica", "Cinta métrica de 5 metros", 10.0, "cintametrica.jpg"));
         productos.add(new Producto("Nivel", "Nivel de burbuja de 24\"", 20.0, "nivel.jpg"));
