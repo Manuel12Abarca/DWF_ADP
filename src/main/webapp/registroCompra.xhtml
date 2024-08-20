@@ -84,20 +84,20 @@
             <div class="form-group">
                 <label for="nombreTarjeta">Nombre en la Tarjeta</label>
                 <h:inputText id="nombreTarjeta" value="#{pagoBean.nombreTarjeta}" class="form-control" required="true">
-                    <f:ajax render="cardName cardNumber cardExpiry"/>
+                    <f:ajax render="cardName"/>
                 </h:inputText>
             </div>
             <div class="form-group">
                 <label for="numeroTarjeta">Número de Tarjeta</label>
                 <h:inputText id="numeroTarjeta" value="#{pagoBean.numeroTarjeta}" class="form-control" required="true" oninput="formatCardNumber()">
-                    <f:ajax render="cardNumber cardName cardExpiry"/>
+                    <f:ajax render="cardNumber"/>
                 </h:inputText>
             </div>
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label for="fechaExpiracion">Fecha de Expiración</label>
                     <h:inputText id="fechaExpiracion" value="#{pagoBean.fechaExpiracion}" class="form-control" required="true">
-                        <f:ajax render="cardNumber cardName cardExpiry"/>
+                        <f:ajax render="cardExpiry"/>
                     </h:inputText>
                 </div>
                 <div class="form-group col-md-6">

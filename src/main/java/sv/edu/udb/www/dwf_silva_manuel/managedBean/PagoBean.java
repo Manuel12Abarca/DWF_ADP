@@ -3,8 +3,7 @@ package sv.edu.udb.www.dwf_silva_manuel.managedBean;
 import jakarta.faces.bean.ManagedBean;
 import jakarta.faces.bean.ViewScoped;
 import java.io.Serializable;
-import jakarta.faces.context.FacesContext;
-import jakarta.faces.application.NavigationHandler;
+import jakarta.inject.Inject;
 
 @ManagedBean(name = "pagoBean")
 @ViewScoped
@@ -14,9 +13,10 @@ public class PagoBean implements Serializable {
     private String fechaExpiracion;
     private String codigoSeguridad;
 
-    // Inyecta el carritoBean
-    private CarritoBean carritoBean;
+    @Inject
+    private CarritoBean carritoBean; // Inyecta el CarritoBean
 
+    // Getters y Setters
     public String getNombreTarjeta() {
         return nombreTarjeta;
     }
@@ -49,26 +49,20 @@ public class PagoBean implements Serializable {
         this.codigoSeguridad = codigoSeguridad;
     }
 
+    // Método para realizar el pago
     public String realizarPago() {
-        // Implementar lógica para procesar el pago
+        // Validar que los campos no sean nulos
+        if (nombreTarjeta == null || numeroTarjeta == null || fechaExpiracion == null || codigoSeguridad == null) {
+            // Redirigir a una página de error si algún campo es nulo
+            return "error?faces-redirect=true";
+        }
 
-        // Vaciar el carrito después de realizar el pago
-        carritoBean.vaciarCarrito();
+        // Procesar el pago (lógica aquí)
+
+        // Vaciar el carrito
+        carritoBean.procesarPago();
 
         // Redirigir a la página de confirmación de compra
-        FacesContext context = FacesContext.getCurrentInstance();
-        NavigationHandler navigationHandler = context.getApplication().getNavigationHandler();
-        navigationHandler.handleNavigation(context, null, "confirmacionCompra?faces-redirect=true");
-
-        return null; // No redirige automáticamente aquí, ya que se maneja la redirección en el NavigationHandler
-    }
-
-    public String cancelar() {
-        // Redirigir a la página de inicio
-        FacesContext context = FacesContext.getCurrentInstance();
-        NavigationHandler navigationHandler = context.getApplication().getNavigationHandler();
-        navigationHandler.handleNavigation(context, null, "index?faces-redirect=true");
-
-        return null; // No redirige automáticamente aquí, ya que se maneja la redirección en el NavigationHandler
+        return "confirmacionCompra?faces-redirect=true";
     }
 }

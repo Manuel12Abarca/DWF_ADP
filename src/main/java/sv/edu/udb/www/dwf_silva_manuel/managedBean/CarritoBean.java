@@ -16,6 +16,7 @@ public class CarritoBean implements Serializable {
         productosEnCarrito = new ArrayList<>();
     }
 
+    // Getters y Setters
     public List<ProductoEnCarrito> getProductosEnCarrito() {
         return productosEnCarrito;
     }
@@ -25,6 +26,7 @@ public class CarritoBean implements Serializable {
         return totalCarrito;
     }
 
+    // Agregar producto al carrito
     public void agregarAlCarrito(Producto producto) {
         for (ProductoEnCarrito productoEnCarrito : productosEnCarrito) {
             if (productoEnCarrito.getProducto().equals(producto)) {
@@ -37,16 +39,19 @@ public class CarritoBean implements Serializable {
         calcularTotalCarrito();
     }
 
+    // Eliminar producto del carrito
     public void eliminarDelCarrito(ProductoEnCarrito productoEnCarrito) {
         productosEnCarrito.remove(productoEnCarrito);
         calcularTotalCarrito();
     }
 
+    // Aumentar cantidad de producto
     public void aumentarCantidad(ProductoEnCarrito productoEnCarrito) {
         productoEnCarrito.setCantidad(productoEnCarrito.getCantidad() + 1);
         calcularTotalCarrito();
     }
 
+    // Disminuir cantidad de producto
     public void disminuirCantidad(ProductoEnCarrito productoEnCarrito) {
         if (productoEnCarrito.getCantidad() > 1) {
             productoEnCarrito.setCantidad(productoEnCarrito.getCantidad() - 1);
@@ -54,6 +59,7 @@ public class CarritoBean implements Serializable {
         }
     }
 
+    // Calcular el total del carrito
     private void calcularTotalCarrito() {
         totalCarrito = 0;
         for (ProductoEnCarrito productoEnCarrito : productosEnCarrito) {
@@ -61,17 +67,17 @@ public class CarritoBean implements Serializable {
         }
     }
 
-    public void vaciarCarrito() {
+    // Procesar el pago y vaciar el carrito
+    public String procesarPago() {
+        // Vaciar el carrito
         productosEnCarrito.clear();
         totalCarrito = 0;
-    }
 
-    public String procesarPago() {
-        // Vaciar el carrito al realizar el pago
-        vaciarCarrito();
+        // Retornar el nombre de la página de confirmación de compra
         return "confirmacionCompra?faces-redirect=true";
     }
 
+    // Redirigir a la página de inicio para seguir comprando
     public String seguirComprando() {
         return "index?faces-redirect=true";
     }
