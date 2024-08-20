@@ -4,7 +4,7 @@
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 <h:head>
-    <title>Ferretería - Productos</title>
+    <title>Ferretería Don Bosco - Productos</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
     <style>
         body {
@@ -12,25 +12,94 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            background-color: #f4f4f4;
         }
         .header {
-            background-color: #f8f8f8;
-            padding: 20px;
-            text-align: center;
+            background-color: #007bff;
+            padding: 15px;
+            color: #fff;
+        }
+        .header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 1.5rem;
+        }
+        .header .btn {
+            background-color: #0056b3;
+            border: none;
+            padding: 10px 20px;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+        .header .btn:hover {
+            background-color: #003d7a;
+        }
+        .header .btn .fa {
+            margin-right: 8px;
+        }
+        .search-container {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            margin: 20px 0;
+        }
+        .search-bar {
+            position: relative;
+            max-width: 400px;
+            flex-grow: 1;
+        }
+        .search-bar input[type="text"] {
+            width: 100%;
+            padding-right: 40px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        .clear-button {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            font-size: 18px;
+            color: #999;
+            display: none;
+        }
+        .clear-button:hover {
+            color: #333;
         }
         .productos {
             display: flex;
             flex-wrap: wrap;
             gap: 20px;
+            justify-content: center;
+            padding: 20px;
         }
         .article {
             border: 1px solid #ddd;
+            border-radius: 8px;
             padding: 20px;
-            width: calc(33.333% - 40px);
+            width: calc(25% - 40px);
             box-sizing: border-box;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: box-shadow 0.3s ease, transform 0.3s ease;
+        }
+        .article:hover {
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            transform: translateY(-5px);
         }
         .article__img img {
             max-width: 100%;
+            border-radius: 8px;
+            margin-bottom: 10px;
         }
         .article_precio {
             font-size: 1.5em;
@@ -63,16 +132,44 @@
         .btn:hover {
             background-color: #0056b3;
         }
+        @media (max-width: 768px) {
+            .article {
+                width: calc(50% - 20px);
+            }
+        }
+        @media (max-width: 576px) {
+            .article {
+                width: 100%;
+            }
+        }
     </style>
 </h:head>
 <h:body>
     <header class="header">
-        <h:link value="Carrito" outcome="carrito" styleClass="btn" />
+        <div class="container">
+            <h1>Ferretería Don Bosco</h1>
+            <h:link outcome="carrito" styleClass="btn">
+                <i class="fa fa-shopping-cart"></i> Carrito
+            </h:link>
+        </div>
     </header>
     <h:form id="productosForm">
         <div class="container">
-            <section class="productos">
-                <ui:repeat value="#{productoBean.productos}" var="producto">
+            <!-- Barra de búsqueda a la derecha con botón de búsqueda -->
+            <div class="search-container">
+                <div class="search-bar">
+                    <h:inputText id="search" value="#{productoBean.searchQuery}" placeholder="Buscar productos..." styleClass="form-control" onkeyup="toggleClearButton()" />
+                    <button type="button" id="clear-button" class="clear-button" onclick="clearSearchField()">
+                        &#215;
+                    </button>
+                    <f:ajax event="keyup" render="productosForm:productos" />
+                </div>
+                <h:commandButton value="Buscar" action="#{productoBean.buscarProductos}" styleClass="btn btn-primary ml-2" />
+            </div>
+
+            <!-- Sección de productos -->
+            <section id="productos" class="productos">
+                <ui:repeat value="#{productoBean.productosFiltrados}" var="producto">
                     <article class="article">
                         <div class="article__img">
                             <figure class="img">
@@ -94,5 +191,20 @@
             </section>
         </div>
     </h:form>
+    <script>
+        function toggleClearButton() {
+            var input = document.getElementById('productosForm:search');
+            var clearButton = document.getElementById('clear-button');
+            clearButton.style.display = input.value.length > 0 ? 'block' : 'none';
+        }
+
+        function clearSearchField() {
+            var input = document.getElementById('productosForm:search');
+            input.value = '';
+            toggleClearButton();
+            input.focus();
+            document.getElementById('productosForm:productos').click(); // Simula el click en el botón de búsqueda para actualizar los resultados
+        }
+    </script>
 </h:body>
 </html>

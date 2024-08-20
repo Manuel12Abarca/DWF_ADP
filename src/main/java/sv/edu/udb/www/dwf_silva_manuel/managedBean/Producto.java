@@ -1,4 +1,4 @@
-package sv.edu.udb.www.dwf_silva_manuel.entity;
+package sv.edu.udb.www.dwf_silva_manuel.managedBean;
 
 public class Producto {
     private String nombre;

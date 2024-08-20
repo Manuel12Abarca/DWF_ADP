@@ -5,8 +5,6 @@ import jakarta.faces.bean.SessionScoped;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import sv.edu.udb.www.dwf_silva_manuel.entity.Producto;
-import sv.edu.udb.www.dwf_silva_manuel.managedBean.ProductoEnCarrito;
 
 @ManagedBean(name = "carritoBean")
 @SessionScoped
@@ -63,9 +61,14 @@ public class CarritoBean implements Serializable {
         }
     }
 
-    public String procesarPago() {
+    public void vaciarCarrito() {
         productosEnCarrito.clear();
         totalCarrito = 0;
+    }
+
+    public String procesarPago() {
+        // Vaciar el carrito al realizar el pago
+        vaciarCarrito();
         return "confirmacionCompra?faces-redirect=true";
     }
 

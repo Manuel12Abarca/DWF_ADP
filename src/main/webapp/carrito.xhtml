@@ -6,45 +6,180 @@
 <h:head>
     <title>Carrito de Compras</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+    <style>
+        body {
+            background-color: #f4f7f6;
+            font-family: 'Roboto', sans-serif;
+        }
+        .container {
+            max-width: 1200px;
+            margin-top: 40px;
+        }
+        .product-card {
+            border: 1px solid #e0e0e0;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            background-color: #fff;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+        .product-card img {
+            max-height: 200px;
+            object-fit: cover;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        .product-card .card-body {
+            padding: 20px;
+        }
+        .product-card .card-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #333;
+        }
+        .product-card .card-text {
+            font-size: 1rem;
+            color: #666;
+            margin-bottom: 15px;
+        }
+        .input-group {
+            margin-bottom: 15px;
+            align-items: center; /* Centra verticalmente los botones y la cantidad */
+        }
+        .input-group .btn {
+            border-radius: 50%; /* Botones redondeados */
+            width: 40px;
+            height: 40px;
+            padding: 0;
+            font-size: 1.2rem;
+            line-height: 40px;
+            transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .input-group .btn:hover {
+            background-color: #e9ecef;
+            transform: scale(1.05); /* Efecto de escalado al pasar el ratón */
+        }
+        .input-group .quantity-display {
+            font-size: 1.2rem;
+            color: #333;
+            margin: 0 10px; /* Espacio horizontal entre los botones y la cantidad */
+            text-align: center;
+            line-height: 40px; /* Alineación vertical con los botones */
+        }
+        .btn-outline-secondary {
+            border-color: #ced4da;
+            color: #495057;
+        }
+        .btn-outline-secondary:hover {
+            background-color: #e9ecef;
+        }
+        .btn-danger {
+            background-color: #dc3545;
+            border-color: #dc3545;
+        }
+        .btn-danger:hover {
+            background-color: #c82333;
+            border-color: #bd2130;
+        }
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #004085;
+        }
+        .btn-secondary {
+            background-color: #6c757d;
+            border-color: #6c757d;
+        }
+        .btn-secondary:hover {
+            background-color: #5a6268;
+            border-color: #545b62;
+        }
+        .total {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: #333;
+            margin-top: 30px;
+            padding: 20px;
+            border-radius: 8px;
+            background-color: #e9ecef;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        .page-header {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #007bff;
+            margin-bottom: 40px;
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 10px;
+        }
+        @media (max-width: 768px) {
+            .product-card img {
+                max-height: 150px;
+            }
+            .container {
+                margin-top: 20px;
+            }
+            .input-group .btn {
+                font-size: 1rem;
+                width: 35px;
+                height: 35px;
+            }
+            .input-group .quantity-display {
+                font-size: 1rem;
+                margin: 0 5px;
+            }
+        }
+    </style>
 </h:head>
 <h:body>
     <h:form id="carritoForm">
         <div class="container">
-            <h2>Carrito de Compras</h2>
+            <h2 class="page-header">Carrito de Compras</h2>
             <ui:repeat value="#{carritoBean.productosEnCarrito}" var="productoEnCarrito">
-                <div class="row mb-3">
-                    <div class="col-md-2">
-                        <!-- Muestra la imagen del producto -->
-                        <img src="#{facesContext.externalContext.requestContextPath}/resources/img/#{productoEnCarrito.producto.imagen}"
-                             alt="Imagen de #{productoEnCarrito.producto.nombre}" class="img-fluid" />
-                    </div>
-                    <div class="col-md-6">
-                        <h4>#{productoEnCarrito.producto.nombre}</h4>
-                        <p>#{productoEnCarrito.producto.descripcion}</p>
-                    </div>
-                    <div class="col-md-2">
-                        <!-- Botones para aumentar/disminuir la cantidad -->
-                        <div class="input-group">
-                            <h:commandButton value="-" action="#{carritoBean.disminuirCantidad(productoEnCarrito)}" styleClass="btn btn-outline-secondary">
-                                <f:ajax execute="@this" render="@form" />
-                            </h:commandButton>
-                            <h:outputText value="#{productoEnCarrito.cantidad}" styleClass="form-control text-center" />
-                            <h:commandButton value="+" action="#{carritoBean.aumentarCantidad(productoEnCarrito)}" styleClass="btn btn-outline-secondary">
-                                <f:ajax execute="@this" render="@form" />
-                            </h:commandButton>
+                <div class="product-card mb-4">
+                    <div class="row no-gutters">
+                        <div class="col-md-4">
+                            <!-- Muestra la imagen del producto -->
+                            <img src="#{facesContext.externalContext.requestContextPath}/resources/img/#{productoEnCarrito.producto.imagen}"
+                                 alt="Imagen de #{productoEnCarrito.producto.nombre}" class="img-fluid" />
                         </div>
-                    </div>
-                    <div class="col-md-2">
-                        <p>Total: ${productoEnCarrito.total}</p>
-                        <h:commandButton value="Eliminar" action="#{carritoBean.eliminarDelCarrito(productoEnCarrito)}" styleClass="btn btn-danger">
-                            <f:ajax execute="@this" render="@form" />
-                        </h:commandButton>
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <h4 class="card-title">#{productoEnCarrito.producto.nombre}</h4>
+                                <p class="card-text">#{productoEnCarrito.producto.descripcion}</p>
+                                <div class="input-group">
+                                    <h:commandButton value="-" action="#{carritoBean.disminuirCantidad(productoEnCarrito)}" styleClass="btn btn-outline-secondary">
+                                        <f:ajax execute="@this" render="@form" />
+                                    </h:commandButton>
+                                    <span class="quantity-display">#{productoEnCarrito.cantidad}</span>
+                                    <h:commandButton value="+" action="#{carritoBean.aumentarCantidad(productoEnCarrito)}" styleClass="btn btn-outline-secondary">
+                                        <f:ajax execute="@this" render="@form" />
+                                    </h:commandButton>
+                                </div>
+                                <p><strong>Total:</strong> ${productoEnCarrito.total}</p>
+                                <h:commandButton value="Eliminar" action="#{carritoBean.eliminarDelCarrito(productoEnCarrito)}" styleClass="btn btn-danger">
+                                    <f:ajax execute="@this" render="@form" />
+                                </h:commandButton>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </ui:repeat>
-            <h3>Total Carrito: ${carritoBean.totalCarrito}</h3>
-            <h:commandButton value="Proceder al Pago" action="registroCompra?faces-redirect=true" styleClass="btn btn-primary" />
-            <h:commandButton value="Seguir Comprando" action="#{carritoBean.seguirComprando()}" styleClass="btn btn-secondary" />
+            <div class="total">
+                <h3>Total Carrito: ${carritoBean.totalCarrito}</h3>
+            </div>
+            <h:commandButton value="Proceder al Pago" action="registroCompra?faces-redirect=true" styleClass="btn btn-primary mt-3" />
+            <h:commandButton value="Seguir Comprando" action="#{carritoBean.seguirComprando()}" styleClass="btn btn-secondary mt-3" />
         </div>
     </h:form>
 </h:body>
