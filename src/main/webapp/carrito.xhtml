@@ -1,55 +1,37 @@
-    <!DOCTYPE html>
-    <html xmlns="http://www.w3.org/1999/xhtml"
-          xmlns:h="http://xmlns.jcp.org/jsf/html"
-          xmlns:f="http://java.sun.com/jsf/core"
-          xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
-    <h:head>
-        <title>Carrito de Compras</title>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
-    </h:head>
-    <h:body>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+<h:head>
+    <title>Carrito de Compras</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+</h:head>
+<h:body>
+    <h:form>
         <div class="container">
-            <h1 class="my-4">Carrito de Compras</h1>
-            <h:form id="carritoForm">
-                <div class="table-responsive">
-                    <table class="table table-striped">
-                        <thead>
-                        <tr>
-                            <th>Imagen</th>
-                            <th>Producto</th>
-                            <th>Precio</th>
-                            <th>Acción</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <ui:repeat value="#{carritoBean.productosEnCarrito}" var="item">
-                            <tr>
-                                <td>
-                                    <h:graphicImage value="/resources/img/#{item.producto.imagen}" style="width: 100px; height: auto;" alt="#{item.producto.nombre}" />
-                                </td>
-                                <td>
-                                    <strong>#{item.producto.nombre}</strong><br/>
-                                    #{item.producto.descripcion}
-                                </td>
-                                <td>$#{item.producto.precio}</td>
-                                <td>
-                                    <h:commandButton value="Eliminar" action="#{carritoBean.eliminarDelCarrito(item)}" styleClass="btn btn-danger btn-sm">
-                                        <f:ajax render="@form" />
-                                    </h:commandButton>
-                                </td>
-                            </tr>
-                        </ui:repeat>
-                        </tbody>
-                    </table>
+            <h2>Carrito de Compras</h2>
+            <ui:repeat value="#{carritoBean.productosEnCarrito}" var="productoEnCarrito">
+                <div class="row mb-3">
+                    <div class="col-md-8">
+                        <h4>#{productoEnCarrito.producto.nombre}</h4>
+                        <p>#{productoEnCarrito.producto.descripcion}</p>
+                    </div>
+                    <div class="col-md-2">
+                        <p>Cantidad: #{productoEnCarrito.cantidad}</p>
+                    </div>
+                    <div class="col-md-2">
+                        <p>Total: ${productoEnCarrito.total}</p>
+                        <h:commandButton value="Eliminar" action="#{carritoBean.eliminarDelCarrito(productoEnCarrito)}" styleClass="btn btn-danger">
+                            <f:ajax execute="@this" render="@this" />
+                        </h:commandButton>
+                    </div>
                 </div>
-                <h:commandButton value="Volver a la tienda" action="#{carritoBean.seguirComprando}" immediate="true" styleClass="btn btn-primary" />
-                <h:commandButton value="Pagar" action="#{carritoBean.procesarPago}" styleClass="btn btn-success" />
-                <h:outputText value="Total: $#{carritoBean.totalCarrito}" styleClass="align-self-center font-weight-bold" />
-            </h:form>
+            </ui:repeat>
+            <h3>Total: ${carritoBean.totalCarrito}</h3>
+            <h:commandButton value="Proceder al Pago" action="#{carritoBean.procesarPago()}" styleClass="btn btn-primary" />
+            <h:commandButton value="Seguir Comprando" action="#{carritoBean.seguirComprando()}" styleClass="btn btn-secondary" />
         </div>
-
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    </h:body>
-    </html>
+    </h:form>
+</h:body>
+</html>

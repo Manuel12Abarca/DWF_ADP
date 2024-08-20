@@ -4,47 +4,14 @@
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 <h:head>
-    <title>Registro de Compra</title>
+    <title>Confirmación de Compra</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
-    <style>
-        .confirmation-container {
-            max-width: 800px; /* Ajusta el ancho del contenedor */
-            width: 100%;
-            margin-top: 50px;
-        }
-        .success-icon {
-            font-size: 50px;
-            color: green;
-        }
-    </style>
-    <script type="text/javascript">
-        // Usar localStorage para realizar el refresh de la página
-        function refreshPage() {
-            if (localStorage.getItem('refreshed') === 'true') {
-                // La página ya fue refrescada, muestra el contenido
-                document.getElementById('content').style.display = 'block';
-                localStorage.removeItem('refreshed');
-            } else {
-                // Marca la página para refrescar
-                localStorage.setItem('refreshed', 'true');
-                location.reload(true);
-            }
-        }
-        window.onload = refreshPage;
-    </script>
 </h:head>
 <h:body>
-    <div id="content" class="container d-flex justify-content-center align-items-center vh-100" style="display: none;">
-        <div class="confirmation-container bg-white p-4 rounded shadow text-center">
-            <h3 class="text-center mb-4">¡Pago Registrado con Éxito!</h3>
-            <div class="mb-4">
-                <span class="success-icon">&#10004;</span> <!-- Icono de éxito -->
-            </div>
-            <p class="lead">Gracias por tu compra.</p>
-            <h:form>
-                <h:commandButton value="Volver al Inicio" class="btn btn-primary mt-3" action="index.xhtml" />
-            </h:form>
-        </div>
+    <div class="container text-center">
+        <h3>¡Pago Registrado con Éxito!</h3>
+        <p>Gracias por tu compra.</p>
+        <h:commandButton value="Volver al Inicio" action="index" class="btn btn-primary" />
     </div>
 </h:body>
 </html>
